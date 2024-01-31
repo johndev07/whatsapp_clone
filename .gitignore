@@ -11,11 +11,11 @@ client/.yarn/install-state.gz
 client//coverage
 
 # next.js
-client//.next/
-client//out/
+client/.next/
+client/out/
 
 # production
-client//build
+client/build
 
 # misc
 client/.DS_Store
