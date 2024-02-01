@@ -1,8 +1,21 @@
+"use client";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 const SignIn = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [user, setUser] = useState({ email: "", password: "" });
+  const router = useRouter();
+  async function handleSubmit(e) {
+    e.preventDefault();
+    try {
+      const response = await axios.post("/api/login", user);
+      console.log(response);
+      router.push("/profile");
+    } catch (error: any) {
+      console.log(error.message);
+    }
+  }
 
   return (
     <div className="bg-gray-50 dark:bg-gray-900">
@@ -23,7 +36,7 @@ const SignIn = () => {
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
               Create and account
             </h1>
-            <form className="space-y-4 md:space-y-6">
+            <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
               <div>
                 <label
                   htmlFor="email"
@@ -35,8 +48,10 @@ const SignIn = () => {
                   type="email"
                   name="email"
                   id="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={user.email}
+                  onChange={(e) =>
+                    setUser({ ...user, [e.target.name]: e.target.value })
+                  }
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="name@company.com"
                 />
@@ -53,8 +68,10 @@ const SignIn = () => {
                   name="password"
                   id="password"
                   placeholder="••••••••"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  value={user.password}
+                  onChange={(e) =>
+                    setUser({ ...user, [e.target.name]: e.target.value })
+                  }
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 />
               </div>
